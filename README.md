@@ -1,59 +1,387 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel CMS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern, modular Content Management System built on Laravel.
 
-## About Laravel
+The goal of this project is to provide a production-ready CMS architecture that is clean, scalable, and highly extensible. Every feature is designed as an independent module that can be installed, removed, or replaced with minimal effort.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Philosophy
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The CMS follows a few core principles.
 
-## Learning Laravel
+- Modular over monolithic
+- Convention over configuration
+- Thin controllers
+- Service-oriented architecture
+- Reusable UI components
+- Feature isolation
+- Testability
+- Performance first
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Every feature should be treated as a package.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+# Project Structure
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+app/
+bootstrap/
+config/
+database/
+modules/
+resources/
+routes/
+storage/
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The `modules` directory contains all business features.
 
-## Contributing
+```
+modules/
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    Banner/
 
-## Code of Conduct
+    Gallery/
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    Blog/
 
-## Security Vulnerabilities
+    News/
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    Events/
 
-## License
+    Users/
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# CMSV2MODULAR
+    Settings/
+```
+
+Each module is completely self-contained.
+
+```
+Gallery/
+
+    Config/
+
+    Console/
+
+    Database/
+        Migrations/
+        Seeders/
+
+    Http/
+        Controllers/
+        Middleware/
+        Requests/
+
+    Models/
+
+    Policies/
+
+    Providers/
+
+    Repositories/
+
+    Resources/
+        views/
+        lang/
+
+    Routes/
+
+    Services/
+
+    Tests/
+
+    module.json
+```
+
+A module should never depend directly on another module.
+
+---
+
+# Core
+
+The core application provides only common infrastructure.
+
+- Authentication
+- Authorization
+- Dashboard
+- Settings
+- Notifications
+- Media
+- Activity Logs
+- Search
+- Menu Builder
+- Theme Engine
+- Module Loader
+
+Business logic belongs inside modules.
+
+---
+
+# Module System
+
+Every feature is a module.
+
+Examples:
+
+- Banner
+- Gallery
+- Blog
+- Pages
+- Events
+- FAQ
+- Forms
+- Newsletter
+
+Modules can be
+
+- Installed
+- Enabled
+- Disabled
+- Removed
+- Updated
+
+without affecting the rest of the application.
+
+---
+
+# Module Manifest
+
+Each module contains a manifest.
+
+module.json
+
+```json
+{
+    "name": "Gallery",
+    "version": "1.0.0",
+    "description": "Gallery Management",
+    "provider": "Modules\\Gallery\\Providers\\GalleryServiceProvider",
+    "enabled": true
+}
+```
+
+The CMS automatically discovers enabled modules.
+
+---
+
+# Dependency Rules
+
+Allowed
+
+Controller
+
+↓
+
+Service
+
+↓
+
+Repository
+
+↓
+
+Model
+
+Not Allowed
+
+Controller → Model
+
+Controller → Database
+
+View → Database
+
+Module → Module
+
+---
+
+# Coding Standards
+
+Controllers
+
+- Validation
+- Authorization
+- Service Calls
+- Responses
+
+Services
+
+- Business Logic
+
+Repositories
+
+- Database Queries
+
+Models
+
+- Relationships
+- Scopes
+- Casts
+
+Views
+
+- Presentation Only
+
+---
+
+# Media
+
+Media is shared across the system.
+
+Supported
+
+- Images
+- Videos
+- YouTube
+- Files
+- Documents
+
+Every module uses the same media service.
+
+---
+
+# Events
+
+Modules communicate using Laravel Events.
+
+Instead of
+
+Gallery directly updating Notifications
+
+Use
+
+GalleryCreated Event
+
+↓
+
+Notification Listener
+
+↓
+
+Search Listener
+
+↓
+
+Activity Log Listener
+
+↓
+
+Cache Listener
+
+This keeps modules independent.
+
+---
+
+# Permissions
+
+Permissions are generated automatically.
+
+Example
+
+gallery.view
+
+gallery.create
+
+gallery.edit
+
+gallery.delete
+
+gallery.publish
+
+Each module registers its own permissions.
+
+---
+
+# Menu Registration
+
+Modules register their own admin menu.
+
+Example
+
+Gallery
+
+↓
+
+GalleryServiceProvider
+
+↓
+
+AdminMenu::register(...)
+
+The core automatically builds the sidebar.
+
+---
+
+# Routes
+
+Every module owns its routes.
+
+```
+modules/
+    Gallery/
+        Routes/
+            web.php
+            api.php
+```
+
+No central route file should know about Gallery.
+
+---
+
+# Configuration
+
+Each module owns its own configuration.
+
+```
+Gallery/
+
+    Config/
+
+        gallery.php
+```
+
+---
+
+# Database
+
+Every module owns its own migrations.
+
+```
+Gallery/
+
+    Database/
+
+        Migrations/
+```
+
+---
+
+# Testing
+
+Each module contains its own tests.
+
+```
+Gallery/
+
+    Tests/
+```
+
+Modules should be testable independently.
+
+---
+
+# Future Goals
+
+- Theme System
+- Plugin Marketplace
+- Multi-tenancy
+- REST API
+- GraphQL
+- Queue Dashboard
+- Workflow Engine
+- Versioning
+- Revisions
+- Multi-language
+- Headless CMS
+- CLI Module Generator
