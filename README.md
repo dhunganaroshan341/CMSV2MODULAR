@@ -1,4 +1,4 @@
-# Laravel CMS
+# Modular Laravel CMS
 
 A modern, modular Content Management System built on Laravel.
 
